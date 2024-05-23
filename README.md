@@ -1,2 +1,2 @@
 # PlayInfo
-GameInfoHub is an open-source Android application built to showcase the best practices in modern Android development. Developed in Kotlin, this native app provides a fun and interactive way for users to explore a variety of games available on different platforms.
+PlayInfo is an open-source Android app developed in Kotlin. It showcases modern Android development best practices and allows users to explore games on different platforms.
