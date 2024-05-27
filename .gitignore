@@ -41,5 +41,5 @@ captures/
 output.json
 
 # Google Services (e.g. APIs or Firebase). Its safe to publish this file,
-# For more - https://cyb3rko.medium.com/publish-the-google-services-json-file-of-an-android-app-project-or-not-1951fb555b26
+# For more - https://blog.mbonnin.net/about-the-android-makers-app-security-and-google-servicesjson
 #google-services.json
