@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "537672499138",
+    "project_id": "playinfo-3026d",
+    "storage_bucket": "playinfo-3026d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537672499138:android:eb44b4f5e3c976fa76a05b",
+        "android_client_info": {
+          "package_name": "dev.sagar.playinfo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBetyQgHBc1R7vUvx2XJ00STJZ5xf65DNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
