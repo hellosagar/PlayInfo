@@ -1,6 +1,7 @@
 package dev.sagar.playinfo.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -13,10 +14,13 @@ import dev.sagar.playinfo.feature.home.HomeScreen
 fun SetupNavGraph(
   navController: NavHostController,
   startDestination: Screen = Screen.Home,
+  modifier: Modifier = Modifier,
 ) {
   NavHost(
+    modifier = modifier,
     navController = navController,
-    startDestination = startDestination
+    startDestination = startDestination,
+
   ) {
     composable<Screen.Home> {
       HomeScreen(

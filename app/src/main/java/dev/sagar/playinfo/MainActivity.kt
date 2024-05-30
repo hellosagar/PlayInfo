@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,8 +22,13 @@ class MainActivity : ComponentActivity() {
     setContent {
       PlayInfoTheme {
         val navController = rememberNavController()
-        Scaffold(modifier = Modifier.fillMaxSize().background(Color.Yellow)) { innerPadding ->
-          SetupNavGraph(navController)
+        Scaffold(modifier = Modifier
+          .fillMaxSize()
+          .background(Color.Yellow)) { innerPadding ->
+          SetupNavGraph(
+            navController = navController,
+            modifier = Modifier.padding(innerPadding)
+          )
         }
       }
     }
