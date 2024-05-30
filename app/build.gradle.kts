@@ -4,6 +4,7 @@ plugins {
   alias(libs.plugins.google.gms.google.services)
   alias(libs.plugins.detekt)
   alias(libs.plugins.compose.compiler)
+  alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -69,4 +70,7 @@ dependencies {
   debugImplementation(libs.androidx.ui.test.manifest)
 
   detektPlugins(libs.composerules.detekt)
+
+  implementation(libs.navigation.compose)
+  implementation(libs.kotlinx.serialization.json)
 }

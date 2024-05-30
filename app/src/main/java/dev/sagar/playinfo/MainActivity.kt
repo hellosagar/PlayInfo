@@ -4,14 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.navigation.compose.rememberNavController
+import dev.sagar.playinfo.navigation.SetupNavGraph
 import dev.sagar.playinfo.ui.theme.PlayInfoTheme
+import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +20,11 @@ class MainActivity : ComponentActivity() {
     enableEdgeToEdge()
     setContent {
       PlayInfoTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-          Greeting(
-            name = "Android",
-            modifier = Modifier.padding(innerPadding)
-          )
+        val navController = rememberNavController()
+        Scaffold(modifier = Modifier.fillMaxSize().background(Color.Yellow)) { innerPadding ->
+          SetupNavGraph(navController)
         }
       }
     }
-  }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-  Text(
-    text = "Hello $name!",
-    modifier = modifier
-  )
-}
-
-@Preview(showBackground = true)
-@Composable
-internal fun GreetingPreview() {
-  PlayInfoTheme {
-    Greeting("Android")
   }
 }
