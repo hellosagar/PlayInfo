@@ -13,8 +13,8 @@ import dev.sagar.playinfo.feature.home.HomeScreen
 @Composable
 fun SetupNavGraph(
   navController: NavHostController,
-  startDestination: Screen = Screen.Home,
   modifier: Modifier = Modifier,
+  startDestination: Screen = Screen.Home,
 ) {
   NavHost(
     modifier = modifier,
