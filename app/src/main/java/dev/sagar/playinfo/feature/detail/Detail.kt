@@ -24,7 +24,7 @@ fun DetailScreen(
   ) {
   Text(
     text = "Detail $name!",
-    modifier = modifier
+    modifier = Modifier
       .clickable {
         onClick.invoke()
       }

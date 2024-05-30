@@ -26,7 +26,7 @@ fun HomeScreen(
 
     Text(
       text = "Hello $name!",
-      modifier = modifier
+      modifier = Modifier
         .clickable {
           onClick.invoke()
         }
