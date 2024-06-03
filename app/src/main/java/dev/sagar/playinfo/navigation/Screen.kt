@@ -10,4 +10,7 @@ sealed class Screen {
   @Serializable
   data class Detail(val id: String) : Screen()
 
+  @Serializable
+  data object SignUp : Screen()
+
 }
