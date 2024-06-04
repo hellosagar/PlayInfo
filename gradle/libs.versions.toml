@@ -17,6 +17,7 @@ detekt = "1.23.6"
 composerules = "0.4.3"
 composeNavigation = "2.8.0-beta02"
 serialization = "1.6.3"
+materialIconsExtended = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +41,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 composerules-detekt = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "composerules" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

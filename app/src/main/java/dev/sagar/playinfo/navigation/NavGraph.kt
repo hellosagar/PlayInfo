@@ -7,7 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import dev.sagar.playinfo.feature.auth.SignupRoute
+import dev.sagar.playinfo.feature.auth.onboarding.OnboardingRoute
+import dev.sagar.playinfo.feature.auth.signup.SignupRoute
 import dev.sagar.playinfo.feature.detail.DetailScreen
 import dev.sagar.playinfo.feature.home.HomeScreen
 
@@ -15,7 +16,7 @@ import dev.sagar.playinfo.feature.home.HomeScreen
 fun SetupNavGraph(
   navController: NavHostController,
   modifier: Modifier = Modifier,
-  startDestination: Screen = Screen.SignUp,
+  startDestination: Screen = Screen.Onboarding,
 ) {
   NavHost(
     modifier = modifier,
@@ -23,6 +24,18 @@ fun SetupNavGraph(
     startDestination = startDestination,
 
   ) {
+    composable<Screen.Onboarding> {
+      OnboardingRoute(
+        onSignupClick = {
+          navController.navigate(Screen.SignUp)
+        },
+        onLoginClick = {
+          navController.navigate(Screen.Login)
+        },
+      )
+    }
+    // Add Login composable here
+
     composable<Screen.SignUp> {
       SignupRoute(
         onSignupClick = {
