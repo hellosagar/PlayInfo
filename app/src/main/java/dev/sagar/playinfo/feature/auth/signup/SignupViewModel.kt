@@ -23,11 +23,8 @@ class SignupViewModel @Inject constructor(
   private var isPasswordValidationActive = false
   private var isEmailValidationActive = false
 
-  var signupState: SignupState by savedStateHandle.saveable {
-    mutableStateOf(
-      value = SignupState()
-    )
-  }
+  var signupState: SignupState by savedStateHandle.saveable { mutableStateOf(value = SignupState()) }
+    private set
 
   fun onEvent(event: SignupEvent) {
     when (event) {
