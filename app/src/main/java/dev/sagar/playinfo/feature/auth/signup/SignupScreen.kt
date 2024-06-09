@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,7 +38,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.sagar.playinfo.ui.theme.PlayInfoTheme
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
@@ -45,36 +48,57 @@ internal fun SignupRoute(
   onSignupClick: () -> Unit,
   modifier: Modifier = Modifier,
   viewModel: SignupViewModel = hiltViewModel(),
+  onShowSnackbar: suspend (message: String, actionText: String?) -> Boolean,
 ) {
+  val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+  LaunchedEffect(onSignupClick) {
+    viewModel.action.collectLatest { actions ->
+      when (actions) {
+        SignupAction.NavigationToHome -> {
+          onSignupClick()
+        }
+
+        is SignupAction.ShowSnackBar -> {
+          onShowSnackbar.invoke(
+            actions.message,
+            null
+          )
+        }
+      }
+    }
+  }
 
   SignupScreen(
+    viewState = viewState,
     onSubmitClick = {
-      onSignupClick.invoke()
+      viewModel.onEvent(
+        SignupInputActionEvent.Submit
+      )
     },
     modifier = modifier,
-    nameValue = viewModel.signupState.name,
-    nameErrorValue = viewModel.signupState.nameError,
-    emailValue = viewModel.signupState.email,
-    emailErrorValue = viewModel.signupState.emailError,
-    passwordValue = viewModel.signupState.password,
-    passwordErrorValue = viewModel.signupState.passwordError,
+    nameValue = viewModel.signupInputState.name,
+    nameErrorValue = viewModel.signupInputState.nameError,
+    emailValue = viewModel.signupInputState.email,
+    emailErrorValue = viewModel.signupInputState.emailError,
+    passwordValue = viewModel.signupInputState.password,
+    passwordErrorValue = viewModel.signupInputState.passwordError,
     onNameChange = { name ->
-      viewModel.onEvent(SignupEvent.NameChanged(name))
+      viewModel.onEvent(SignupInputActionEvent.NameChanged(name))
     },
     onEmailChange = { email ->
-      viewModel.onEvent(SignupEvent.EmailChanged(email))
+      viewModel.onEvent(SignupInputActionEvent.EmailChanged(email))
     },
     onPasswordChange = { password ->
-      viewModel.onEvent(SignupEvent.PasswordChanged(password))
+      viewModel.onEvent(SignupInputActionEvent.PasswordChanged(password))
     },
     onNameNextClick = {
-      viewModel.onEvent(SignupEvent.NameIMEAction)
+      viewModel.onEvent(SignupInputActionEvent.NameIMEInputAction)
     },
     onEmailNextClick = {
-      viewModel.onEvent(SignupEvent.EmailIMEAction)
+      viewModel.onEvent(SignupInputActionEvent.EmailIMEInputAction)
     },
     onPasswordNextClick = {
-      viewModel.onEvent(SignupEvent.PasswordIMEAction)
+      viewModel.onEvent(SignupInputActionEvent.PasswordIMEInputAction)
     },
   )
 }
@@ -94,9 +118,9 @@ internal fun SignupScreen(
   onNameNextClick: () -> Unit,
   onEmailNextClick: () -> Unit,
   onPasswordNextClick: () -> Unit,
+  viewState: SignupViewState,
   modifier: Modifier = Modifier,
 ) {
-
   Column(
     modifier = modifier
       .fillMaxSize(),
@@ -222,13 +246,13 @@ internal fun SignupScreen(
         .fillMaxWidth()
         .padding(horizontal = 32.dp, vertical = 16.dp),
       onClick = onSubmitClick,
+      enabled = viewState.submitButtonEnabled,
     ) {
       Text("Sign Up")
     }
   }
 
 }
-
 
 
 @Preview(showBackground = true)

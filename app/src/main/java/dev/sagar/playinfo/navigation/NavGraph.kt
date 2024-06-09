@@ -15,6 +15,7 @@ import dev.sagar.playinfo.feature.home.HomeScreen
 @Composable
 fun SetupNavGraph(
   navController: NavHostController,
+  onShowSnackbar: suspend (String, String?) -> Boolean,
   modifier: Modifier = Modifier,
   startDestination: Screen = Screen.Onboarding,
 ) {
@@ -38,6 +39,7 @@ fun SetupNavGraph(
 
     composable<Screen.SignUp> {
       SignupRoute(
+        onShowSnackbar = onShowSnackbar,
         onSignupClick = {
           navController.navigate(Screen.Home)
         },
