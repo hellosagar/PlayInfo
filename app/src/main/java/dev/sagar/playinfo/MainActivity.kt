@@ -85,8 +85,8 @@ class MainActivity : ComponentActivity() {
               }
 
               is MainActivityUiState.Success -> {
-                val isUserLoggedIn = (uiState as MainActivityUiState.Success).isUserLoggedIn
-                if (isUserLoggedIn) {
+                val isUserLoggedIn = (uiState as? MainActivityUiState.Success)?.isUserLoggedIn
+                if (isUserLoggedIn != null && isUserLoggedIn) {
                   Screen.Home
                 } else {
                   Screen.Onboarding
