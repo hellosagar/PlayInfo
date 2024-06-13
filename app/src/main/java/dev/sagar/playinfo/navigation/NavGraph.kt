@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
+import dev.sagar.playinfo.feature.auth.login.LoginRoute
 import dev.sagar.playinfo.feature.auth.onboarding.OnboardingRoute
 import dev.sagar.playinfo.feature.auth.signup.SignupRoute
 import dev.sagar.playinfo.feature.detail.DetailScreen
@@ -24,7 +24,7 @@ fun SetupNavGraph(
     navController = navController,
     startDestination = startDestination,
 
-  ) {
+    ) {
     composable<Screen.Onboarding> {
       OnboardingRoute(
         onSignupClick = {
@@ -35,8 +35,15 @@ fun SetupNavGraph(
         },
       )
     }
-    // Add Login composable here
-
+    composable<Screen.Login> {
+      LoginRoute(
+        onShowSnackbar = onShowSnackbar,
+        onLoginClick = {
+          navController.navigate(Screen.Home)
+        },
+        modifier = Modifier,
+      )
+    }
     composable<Screen.SignUp> {
       SignupRoute(
         onShowSnackbar = onShowSnackbar,
@@ -48,16 +55,15 @@ fun SetupNavGraph(
     }
     composable<Screen.Home> {
       HomeScreen(
-        name = "Sagar Khurana",
         onClick = {
           navController.navigate(Screen.Detail("1"))
         }
       )
     }
     composable<Screen.Detail> { backStackEntry ->
-      val detail = backStackEntry.toRoute<Screen.Detail>()
+//      val detail = backStackEntry.toRoute<Screen.Detail>()
       DetailScreen(
-        name = detail.id,
+//        name = detail.id,
         onClick = {
           if (navController.canGoBack) {
             navController.popBackStack()

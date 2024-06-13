@@ -85,4 +85,7 @@ dependencies {
   // Firebase
   implementation(platform(libs.firebase.bom))
   implementation(libs.firebase.auth.ktx)
+
+  // Splash screen
+  implementation(libs.androidx.core.splashscreen)
 }

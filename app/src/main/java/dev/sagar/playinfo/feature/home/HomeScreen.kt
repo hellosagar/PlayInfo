@@ -3,7 +3,6 @@ package dev.sagar.playinfo.feature.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,18 +13,18 @@ import dev.sagar.playinfo.ui.theme.PlayInfoTheme
 
 @Composable
 fun HomeScreen(
-  name: String,
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
   Box(
-    modifier = modifier.fillMaxSize()
+    modifier = modifier
+      .fillMaxSize()
       .background(Color.Gray),
     contentAlignment = androidx.compose.ui.Alignment.Center
   ) {
 
     Text(
-      text = "Hello $name!",
+      text = "Home Screen",
       modifier = Modifier
         .clickable {
           onClick.invoke()
@@ -38,6 +37,7 @@ fun HomeScreen(
 @Composable
 internal fun HomePreview() {
   PlayInfoTheme {
-    HomeScreen("Android", {})
+    HomeScreen(
+      {})
   }
 }

@@ -5,11 +5,16 @@ import javax.inject.Inject
 
 private const val PASSWORD_MIN_LENGTH = 6
 
-class UserInputValidator @Inject constructor( ) {
+class UserAuthInputValidator @Inject constructor( ) {
 
-  fun isUserInputsValid(name: String, email: String, password: String): Boolean {
+  fun isCreateAccountInputValid(name: String, email: String, password: String): Boolean {
     return nameValid(name) == null &&
       emailValid(email) == null &&
+      passwordValid(password) == null
+  }
+
+  fun isLoginInputValid(email: String, password: String): Boolean {
+    return emailValid(email) == null &&
       passwordValid(password) == null
   }
 

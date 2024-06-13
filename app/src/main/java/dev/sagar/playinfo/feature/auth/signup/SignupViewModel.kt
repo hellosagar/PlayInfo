@@ -8,7 +8,7 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.sagar.playinfo.core.data.repository.AuthRepository
-import dev.sagar.playinfo.core.utils.UserInputValidator
+import dev.sagar.playinfo.core.utils.UserAuthInputValidator
 import dev.sagar.playinfo.domain.Result
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,17 +17,36 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val SIGNUP_PASSWORD_VALIDATION_ACTIVE_KEY = "loginPasswordValidationActive"
+private const val SIGNUP_EMAIL_VALIDATION_ACTIVE_KEY = "loginEmailValidationActive"
+private const val SIGNUP_NAME_VALIDATION_ACTIVE_KEY = "loginNameValidationActive"
+
 @OptIn(SavedStateHandleSaveableApi::class)
 @HiltViewModel
 class SignupViewModel @Inject constructor(
-  savedStateHandle: SavedStateHandle,
+  private val savedStateHandle: SavedStateHandle,
   private val authRepository: AuthRepository,
-  private val userInputValidator: UserInputValidator,
+  private val userAuthInputValidator: UserAuthInputValidator,
 ) : ViewModel() {
 
+  private var isPasswordValidationActive: Boolean = false
+    get() = savedStateHandle[SIGNUP_PASSWORD_VALIDATION_ACTIVE_KEY] ?: false
+    set(value) {
+      field = value
+      savedStateHandle[SIGNUP_PASSWORD_VALIDATION_ACTIVE_KEY] = value
+    }
   private var isNameValidationActive = false
-  private var isPasswordValidationActive = false
+    get() = savedStateHandle[SIGNUP_NAME_VALIDATION_ACTIVE_KEY] ?: false
+    set(value) {
+      field = value
+      savedStateHandle[SIGNUP_NAME_VALIDATION_ACTIVE_KEY] = value
+    }
   private var isEmailValidationActive = false
+    get() = savedStateHandle[SIGNUP_EMAIL_VALIDATION_ACTIVE_KEY] ?: false
+    set(value) {
+      field = value
+      savedStateHandle[SIGNUP_EMAIL_VALIDATION_ACTIVE_KEY] = value
+    }
 
   private val _viewState = MutableStateFlow(SignupViewState())
   val viewState: StateFlow<SignupViewState> = _viewState
@@ -57,7 +76,7 @@ class SignupViewModel @Inject constructor(
   private fun onEmailChanged(email: String) {
     signupInputState = signupInputState.copy(
       email = email,
-      emailError = if (isEmailValidationActive) userInputValidator.emailValid(email) else null
+      emailError = if (isEmailValidationActive) userAuthInputValidator.emailValid(email) else null
     )
     validateInputs()
   }
@@ -65,7 +84,7 @@ class SignupViewModel @Inject constructor(
   private fun onPasswordChanged(password: String) {
     signupInputState = signupInputState.copy(
       password = password,
-      passwordError = if (isPasswordValidationActive) userInputValidator.passwordValid(password) else null
+      passwordError = if (isPasswordValidationActive) userAuthInputValidator.passwordValid(password) else null
     )
     validateInputs()
   }
@@ -73,7 +92,7 @@ class SignupViewModel @Inject constructor(
   private fun onNameChanged(name: String) {
     signupInputState = signupInputState.copy(
       name = name,
-      nameError = if (isNameValidationActive) userInputValidator.nameValid(name) else null
+      nameError = if (isNameValidationActive) userAuthInputValidator.nameValid(name) else null
     )
     validateInputs()
   }
@@ -81,27 +100,27 @@ class SignupViewModel @Inject constructor(
   private fun onNameIMEInputActionClick() {
     isNameValidationActive = true
     signupInputState = signupInputState.copy(
-      nameError = userInputValidator.nameValid(signupInputState.name)
+      nameError = userAuthInputValidator.nameValid(signupInputState.name)
     )
   }
 
   private fun onEmailIMEActionClick() {
     isEmailValidationActive = true
     signupInputState = signupInputState.copy(
-      emailError = userInputValidator.emailValid(signupInputState.email)
+      emailError = userAuthInputValidator.emailValid(signupInputState.email)
     )
   }
 
   private fun onPasswordIMEActionClick() {
     isPasswordValidationActive = true
     signupInputState = signupInputState.copy(
-      passwordError = userInputValidator.passwordValid(signupInputState.password)
+      passwordError = userAuthInputValidator.passwordValid(signupInputState.password)
     )
   }
 
   private fun validateInputs() {
     _viewState.value = _viewState.value.copy(
-      submitButtonEnabled = userInputValidator.isUserInputsValid(
+      submitButtonEnabled = userAuthInputValidator.isCreateAccountInputValid(
         email = signupInputState.email,
         password = signupInputState.password,
         name = signupInputState.name
@@ -111,7 +130,7 @@ class SignupViewModel @Inject constructor(
 
   private fun submitSignup() {
     viewModelScope.launch {
-      val result = authRepository.signup(
+      val result = authRepository.signUp(
         name = signupInputState.name,
         email = signupInputState.email,
         password = signupInputState.password

@@ -13,7 +13,6 @@ import dev.sagar.playinfo.ui.theme.PlayInfoTheme
 
 @Composable
 fun DetailScreen(
-  name: String,
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
@@ -23,7 +22,7 @@ fun DetailScreen(
     contentAlignment = androidx.compose.ui.Alignment.Center
   ) {
   Text(
-    text = "Detail $name!",
+    text = "Detail Screen",
     modifier = Modifier
       .clickable {
         onClick.invoke()
@@ -36,6 +35,6 @@ fun DetailScreen(
 @Composable
 internal fun DetailPreview() {
   PlayInfoTheme {
-    DetailScreen("Android", {})
+    DetailScreen({})
   }
 }
