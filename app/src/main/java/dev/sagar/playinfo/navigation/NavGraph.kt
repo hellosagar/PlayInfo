@@ -10,7 +10,7 @@ import dev.sagar.playinfo.feature.auth.login.LoginRoute
 import dev.sagar.playinfo.feature.auth.onboarding.OnboardingRoute
 import dev.sagar.playinfo.feature.auth.signup.SignupRoute
 import dev.sagar.playinfo.feature.detail.DetailScreen
-import dev.sagar.playinfo.feature.home.HomeScreen
+import dev.sagar.playinfo.feature.home.HomeRoute
 
 @Composable
 fun SetupNavGraph(
@@ -39,7 +39,11 @@ fun SetupNavGraph(
       LoginRoute(
         onShowSnackbar = onShowSnackbar,
         onLoginClick = {
-          navController.navigate(Screen.Home)
+          navController.navigate(Screen.Home) {
+            popUpTo(navController.graph.id) {
+              inclusive = true
+            }
+          }
         },
         modifier = Modifier,
       )
@@ -48,13 +52,17 @@ fun SetupNavGraph(
       SignupRoute(
         onShowSnackbar = onShowSnackbar,
         onSignupClick = {
-          navController.navigate(Screen.Home)
+          navController.navigate(Screen.Home) {
+            popUpTo(navController.graph.id) {
+              inclusive = true
+            }
+          }
         },
         modifier = Modifier,
       )
     }
     composable<Screen.Home> {
-      HomeScreen(
+      HomeRoute(
         onClick = {
           navController.navigate(Screen.Detail("1"))
         }

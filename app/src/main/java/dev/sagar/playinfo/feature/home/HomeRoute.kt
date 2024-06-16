@@ -6,21 +6,29 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.sagar.playinfo.ui.theme.PlayInfoTheme
 
 @Composable
-fun HomeScreen(
+fun HomeRoute(
   onClick: () -> Unit,
   modifier: Modifier = Modifier,
+  viewModel: HomeViewModel = hiltViewModel(),
 ) {
+  HomeScreen(modifier, onClick)
+}
+
+@Composable
+private fun HomeScreen(modifier: Modifier, onClick: () -> Unit) {
   Box(
     modifier = modifier
       .fillMaxSize()
       .background(Color.Gray),
-    contentAlignment = androidx.compose.ui.Alignment.Center
+    contentAlignment = Alignment.Center
   ) {
 
     Text(
@@ -37,7 +45,7 @@ fun HomeScreen(
 @Composable
 internal fun HomePreview() {
   PlayInfoTheme {
-    HomeScreen(
+    HomeRoute(
       {})
   }
 }
