@@ -28,8 +28,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -113,7 +115,6 @@ internal fun LoginScreen(
       .fillMaxSize(),
     verticalArrangement = Arrangement.SpaceBetween,
   ) {
-    val localFocusManager = LocalFocusManager.current
 
     Column(
       modifier = Modifier
@@ -124,7 +125,15 @@ internal fun LoginScreen(
       horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
+      val focusManager = LocalFocusManager.current
+      val keyboardController = LocalSoftwareKeyboardController.current
+
       TextField(
+        modifier = Modifier.onFocusChanged {
+          if (it.isFocused) {
+            onEmailNextClick.invoke()
+          }
+        },
         value = emailValue,
         onValueChange = { newValue ->
           onEmailChange(newValue)
@@ -137,8 +146,7 @@ internal fun LoginScreen(
         ),
         keyboardActions = KeyboardActions(
           onNext = {
-            onEmailNextClick.invoke()
-            localFocusManager.moveFocus(FocusDirection.Down)
+            focusManager.moveFocus(FocusDirection.Down)
           }),
         leadingIcon = {
           Icon(Icons.Filled.Email, contentDescription = "Email")
@@ -156,6 +164,11 @@ internal fun LoginScreen(
 
       var passwordVisible by rememberSaveable { mutableStateOf(false) }
       TextField(
+        modifier = Modifier.onFocusChanged {
+          if (it.isFocused) {
+            onPasswordNextClick.invoke()
+          }
+        },
         value = passwordValue,
         onValueChange = { newValue ->
           onPasswordChange(newValue)
@@ -170,8 +183,8 @@ internal fun LoginScreen(
         ),
         keyboardActions = KeyboardActions(
           onDone = {
-            onPasswordNextClick.invoke()
-            localFocusManager.clearFocus()
+            focusManager.clearFocus()
+            keyboardController?.hide()
           }),
         trailingIcon = {
           val image = if (passwordVisible)

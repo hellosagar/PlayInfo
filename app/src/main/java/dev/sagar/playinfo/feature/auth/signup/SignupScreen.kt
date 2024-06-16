@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
@@ -138,6 +139,11 @@ internal fun SignupScreen(
     ) {
 
       TextField(
+        modifier = Modifier.onFocusChanged {
+          if (it.isFocused) {
+            onNameNextClick.invoke()
+          }
+        },
         value = nameValue,
         onValueChange = { newValue ->
           onNameChange(newValue)
@@ -151,7 +157,6 @@ internal fun SignupScreen(
         ),
         keyboardActions = KeyboardActions(
           onNext = {
-            onNameNextClick.invoke()
             localFocusManager.moveFocus(FocusDirection.Down)
           }),
         leadingIcon = {
@@ -169,6 +174,11 @@ internal fun SignupScreen(
       Spacer(modifier = Modifier.height(8.dp))
 
       TextField(
+        modifier = Modifier.onFocusChanged {
+          if (it.isFocused) {
+            onEmailNextClick.invoke()
+          }
+        },
         value = emailValue,
         onValueChange = { newValue ->
           onEmailChange(newValue)
@@ -181,7 +191,6 @@ internal fun SignupScreen(
         ),
         keyboardActions = KeyboardActions(
           onNext = {
-            onEmailNextClick.invoke()
             localFocusManager.moveFocus(FocusDirection.Down)
           }),
         leadingIcon = {
@@ -200,6 +209,11 @@ internal fun SignupScreen(
 
       var passwordVisible by rememberSaveable { mutableStateOf(false) }
       TextField(
+        modifier = Modifier.onFocusChanged {
+          if (it.isFocused) {
+            onPasswordNextClick.invoke()
+          }
+        },
         value = passwordValue,
         onValueChange = { newValue ->
           onPasswordChange(newValue)
@@ -214,8 +228,7 @@ internal fun SignupScreen(
         ),
         keyboardActions = KeyboardActions(
           onDone = {
-            onPasswordNextClick.invoke()
-            localFocusManager.clearFocus()
+            localFocusManager.clearFocus(force = true)
           }),
         trailingIcon = {
           val image = if (passwordVisible)
