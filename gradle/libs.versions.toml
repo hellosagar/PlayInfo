@@ -17,7 +17,7 @@ googleGmsGoogleServices = "4.4.2"
 detekt = "1.23.6"
 composerules = "0.4.4"
 composeNavigation = "2.8.0-beta03"
-serialization = "1.7.0"
+serialization = "1.7.1"
 materialIconsExtended = "1.6.8"
 
 [libraries]
