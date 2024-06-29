@@ -15,37 +15,40 @@ import dev.sagar.playinfo.ui.theme.PlayInfoTheme
 
 @Composable
 fun HomeRoute(
-  onClick: () -> Unit,
-  modifier: Modifier = Modifier,
-  viewModel: HomeViewModel = hiltViewModel(),
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
-  HomeScreen(modifier, onClick)
+    HomeScreen(onClick, modifier)
 }
 
 @Composable
-private fun HomeScreen(modifier: Modifier, onClick: () -> Unit) {
-  Box(
-    modifier = modifier
-      .fillMaxSize()
-      .background(Color.Gray),
-    contentAlignment = Alignment.Center
-  ) {
+private fun HomeScreen(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Gray),
+        contentAlignment = Alignment.Center
+    ) {
 
-    Text(
-      text = "Home Screen",
-      modifier = Modifier
-        .clickable {
-          onClick.invoke()
-        }
-    )
-  }
+        Text(
+            text = "Home Screen",
+            modifier = Modifier
+                .clickable {
+                    onClick.invoke()
+                }
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 internal fun HomePreview() {
-  PlayInfoTheme {
-    HomeRoute(
-      {})
-  }
+    PlayInfoTheme {
+        HomeRoute(
+            {})
+    }
 }
