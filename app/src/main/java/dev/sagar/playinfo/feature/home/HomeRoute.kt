@@ -19,11 +19,14 @@ fun HomeRoute(
   modifier: Modifier = Modifier,
   viewModel: HomeViewModel = hiltViewModel(),
 ) {
-  HomeScreen(modifier, onClick)
+  HomeScreen(onClick, modifier)
 }
 
 @Composable
-private fun HomeScreen(modifier: Modifier, onClick: () -> Unit) {
+private fun HomeScreen(
+  onClick: () -> Unit,
+  modifier: Modifier = Modifier,
+) {
   Box(
     modifier = modifier
       .fillMaxSize()

@@ -88,4 +88,9 @@ dependencies {
 
   // Splash screen
   implementation(libs.androidx.core.splashscreen)
+
+  // Network
+  implementation(libs.retrofit)
+  implementation(libs.logging.interceptor)
+  implementation(libs.moshi.kotlin)
 }

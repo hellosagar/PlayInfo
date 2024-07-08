@@ -2,7 +2,7 @@ package dev.sagar.playinfo.core.utils
 
 object Constants {
 
-    const val BASE_URL = "PLACEHOLDER"
+    const val BASE_URL = "https://api.rawg.io/api/"
 
     const val SETTINGS_PREF = "settings_pref"
 
