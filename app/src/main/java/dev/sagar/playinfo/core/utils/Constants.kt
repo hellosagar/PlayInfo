@@ -2,7 +2,8 @@ package dev.sagar.playinfo.core.utils
 
 object Constants {
 
-    const val BASE_URL = "https://api.rawg.io/api/"
+    const val BASE_URL = "https://api.rawg.io/"
+    const val NETWORK_TIMEOUT_SEC = 40L
 
     const val SETTINGS_PREF = "settings_pref"
 

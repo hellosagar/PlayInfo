@@ -16,52 +16,52 @@ import dev.sagar.playinfo.ui.theme.PlayInfoTheme
 
 @Composable
 internal fun OnboardingRoute(
-  onSignupClick: () -> Unit,
-  onLoginClick: () -> Unit,
-  modifier: Modifier = Modifier,
+    onSignupClick: () -> Unit,
+    onLoginClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-  OnboardingScreen(
-    onSignupClick = onSignupClick,
-    onLoginClick = onLoginClick,
-    modifier = modifier,
-  )
+    OnboardingScreen(
+        onSignupClick = onSignupClick,
+        onLoginClick = onLoginClick,
+        modifier = modifier,
+    )
 }
 
 @Composable
 internal fun OnboardingScreen(
-  onSignupClick: () -> Unit,
-  onLoginClick: () -> Unit,
-  modifier: Modifier = Modifier,
+    onSignupClick: () -> Unit,
+    onLoginClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-  Column(
-    modifier = modifier
-      .fillMaxSize(),
-    verticalArrangement = Arrangement.Center,
-    horizontalAlignment = Alignment.CenterHorizontally,
-  ) {
-    Button(
-      onClick = onSignupClick
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-      Text("Signup")
-    }
+        Button(
+            onClick = onSignupClick
+        ) {
+            Text("Signup")
+        }
 
-    Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-    Button(
-      onClick = onLoginClick
-    ) {
-      Text("Login")
+        Button(
+            onClick = onLoginClick
+        ) {
+            Text("Login")
+        }
     }
-  }
 }
 
 @Preview
 @Composable
 private fun OnboardingScreenPreview() {
-  PlayInfoTheme {
-    OnboardingScreen(
-      onSignupClick = {},
-      onLoginClick = {},
-    )
-  }
+    PlayInfoTheme {
+        OnboardingScreen(
+            onSignupClick = {},
+            onLoginClick = {},
+        )
+    }
 }

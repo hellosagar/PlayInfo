@@ -34,68 +34,67 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-  val viewModel: MainActivityViewModel by viewModels()
-  override fun onCreate(savedInstanceState: Bundle?) {
-    val splashScreen = installSplashScreen()
-    super.onCreate(savedInstanceState)
+    val viewModel: MainActivityViewModel by viewModels()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+        super.onCreate(savedInstanceState)
 
-    var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
+        var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
 
-    // Update the uiState
-    lifecycleScope.launch {
-      lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-        viewModel.isUserSignedIn.collectLatest {
-          uiState = it
-        }
-
-      }
-    }
-
-    splashScreen.setKeepOnScreenCondition {
-      when (uiState) {
-        MainActivityUiState.Loading -> true
-        is MainActivityUiState.Success -> false
-      }
-    }
-
-    enableEdgeToEdge()
-    setContent {
-      PlayInfoTheme {
-        val navController = rememberNavController()
-        val snackbarHostState = remember { SnackbarHostState() }
-        Scaffold(
-          snackbarHost = { SnackbarHost(snackbarHostState) },
-          modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Yellow)
-        ) { innerPadding ->
-          SetupNavGraph(
-            navController = navController,
-            onShowSnackbar = { message, actionText ->
-              snackbarHostState.showSnackbar(
-                message = message,
-                actionLabel = actionText,
-                duration = Short,
-              ) == ActionPerformed
-            },
-            modifier = Modifier.padding(innerPadding),
-            startDestination = when (uiState) {
-              MainActivityUiState.Loading -> {
-                Screen.Onboarding
-              }
-
-              is MainActivityUiState.Success -> {
-                val isUserLoggedIn = (uiState as? MainActivityUiState.Success)?.isUserLoggedIn
-                if (isUserLoggedIn != null && isUserLoggedIn) {
-                  Screen.Home
-                } else {
-                  Screen.Onboarding
+        // Update the uiState
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isUserSignedIn.collectLatest {
+                    uiState = it
                 }
-              }
             }
-          )
         }
-      }
+
+        splashScreen.setKeepOnScreenCondition {
+            when (uiState) {
+                MainActivityUiState.Loading -> true
+                is MainActivityUiState.Success -> false
+            }
+        }
+
+        enableEdgeToEdge()
+        setContent {
+            PlayInfoTheme {
+                val navController = rememberNavController()
+                val snackbarHostState = remember { SnackbarHostState() }
+                Scaffold(
+                    snackbarHost = { SnackbarHost(snackbarHostState) },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Yellow)
+                ) { innerPadding ->
+                    SetupNavGraph(
+                        navController = navController,
+                        onShowSnackbar = { message, actionText ->
+                            snackbarHostState.showSnackbar(
+                                message = message,
+                                actionLabel = actionText,
+                                duration = Short,
+                            ) == ActionPerformed
+                        },
+                        modifier = Modifier.padding(innerPadding),
+                        startDestination = when (uiState) {
+                            MainActivityUiState.Loading -> {
+                                Screen.Onboarding
+                            }
+
+                            is MainActivityUiState.Success -> {
+                                val isUserLoggedIn = (uiState as? MainActivityUiState.Success)?.isUserLoggedIn
+                                if (isUserLoggedIn != null && isUserLoggedIn) {
+                                    Screen.Home
+                                } else {
+                                    Screen.Onboarding
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+        }
     }
-  }
 }

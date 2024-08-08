@@ -13,28 +13,33 @@ import dev.sagar.playinfo.ui.theme.PlayInfoTheme
 
 @Composable
 fun DetailScreen(
-  onClick: () -> Unit,
-  modifier: Modifier = Modifier,
+    gameId: Int,
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-  Box(
-    modifier = modifier.fillMaxSize()
-      .background(Color.Red),
-    contentAlignment = androidx.compose.ui.Alignment.Center
-  ) {
-  Text(
-    text = "Detail Screen",
-    modifier = Modifier
-      .clickable {
-        onClick.invoke()
-      }
-  )
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Red),
+        contentAlignment = androidx.compose.ui.Alignment.Center
+    ) {
+        Text(
+            text = "Detail Screen $gameId",
+            modifier = Modifier
+                .clickable {
+                    onBackClick.invoke()
+                }
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 internal fun DetailPreview() {
-  PlayInfoTheme {
-    DetailScreen({})
-  }
+    PlayInfoTheme {
+        DetailScreen(
+            gameId = 1,
+            onBackClick = { }
+        )
+    }
 }

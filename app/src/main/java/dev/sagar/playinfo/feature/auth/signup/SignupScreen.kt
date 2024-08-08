@@ -43,235 +43,256 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.sagar.playinfo.ui.theme.PlayInfoTheme
 import kotlinx.coroutines.flow.collectLatest
 
-
 @Composable
 internal fun SignupRoute(
-  onSignupClick: () -> Unit,
-  modifier: Modifier = Modifier,
-  viewModel: SignupViewModel = hiltViewModel(),
-  onShowSnackbar: suspend (message: String, actionText: String?) -> Boolean,
+    onSignupClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SignupViewModel = hiltViewModel(),
+    onShowSnackbar: suspend (message: String, actionText: String?) -> Boolean,
 ) {
-  val viewState by viewModel.viewState.collectAsStateWithLifecycle()
-  LaunchedEffect(onSignupClick) {
-    viewModel.action.collectLatest { actions ->
-      when (actions) {
-        SignupAction.NavigationToHome -> {
-          onSignupClick()
-        }
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    LaunchedEffect(onSignupClick) {
+        viewModel.action.collectLatest { actions ->
+            when (actions) {
+                SignupAction.NavigationToHome -> {
+                    onSignupClick()
+                }
 
-        is SignupAction.ShowSnackBar -> {
-          onShowSnackbar.invoke(
-            actions.message,
-            null
-          )
+                is SignupAction.ShowSnackBar -> {
+                    onShowSnackbar.invoke(
+                        actions.message,
+                        null
+                    )
+                }
+            }
         }
-      }
     }
-  }
 
-  SignupScreen(
-    viewState = viewState,
-    onSubmitClick = {
-      viewModel.onEvent(
-        SignupInputActionEvent.Submit
-      )
-    },
-    modifier = modifier,
-    nameValue = viewModel.signupInputState.name,
-    nameErrorValue = viewModel.signupInputState.nameError,
-    emailValue = viewModel.signupInputState.email,
-    emailErrorValue = viewModel.signupInputState.emailError,
-    passwordValue = viewModel.signupInputState.password,
-    passwordErrorValue = viewModel.signupInputState.passwordError,
-    onNameChange = { name ->
-      viewModel.onEvent(SignupInputActionEvent.NameChanged(name))
-    },
-    onEmailChange = { email ->
-      viewModel.onEvent(SignupInputActionEvent.EmailChanged(email))
-    },
-    onPasswordChange = { password ->
-      viewModel.onEvent(SignupInputActionEvent.PasswordChanged(password))
-    },
-    onNameNextClick = {
-      viewModel.onEvent(SignupInputActionEvent.NameIMEInputAction)
-    },
-    onEmailNextClick = {
-      viewModel.onEvent(SignupInputActionEvent.EmailIMEInputAction)
-    },
-    onPasswordNextClick = {
-      viewModel.onEvent(SignupInputActionEvent.PasswordIMEInputAction)
-    },
-  )
+    SignupScreen(
+        viewState = viewState,
+        onSubmitClick = {
+            viewModel.onEvent(
+                SignupInputActionEvent.Submit
+            )
+        },
+        modifier = modifier,
+        nameValue = viewModel.signupInputState.name,
+        nameErrorValue = viewModel.signupInputState.nameError,
+        emailValue = viewModel.signupInputState.email,
+        emailErrorValue = viewModel.signupInputState.emailError,
+        passwordValue = viewModel.signupInputState.password,
+        passwordErrorValue = viewModel.signupInputState.passwordError,
+        onNameChange = { name ->
+            viewModel.onEvent(SignupInputActionEvent.NameChanged(name))
+        },
+        onEmailChange = { email ->
+            viewModel.onEvent(SignupInputActionEvent.EmailChanged(email))
+        },
+        onPasswordChange = { password ->
+            viewModel.onEvent(SignupInputActionEvent.PasswordChanged(password))
+        },
+        onNameNextClick = {
+            viewModel.onEvent(SignupInputActionEvent.NameIMEInputAction)
+        },
+        onEmailNextClick = {
+            viewModel.onEvent(SignupInputActionEvent.EmailIMEInputAction)
+        },
+        onPasswordNextClick = {
+            viewModel.onEvent(SignupInputActionEvent.PasswordIMEInputAction)
+        },
+    )
 }
 
 @Composable
 internal fun SignupScreen(
-  onSubmitClick: () -> Unit,
-  nameValue: String,
-  nameErrorValue: String?,
-  emailValue: String,
-  emailErrorValue: String?,
-  passwordValue: String,
-  passwordErrorValue: String?,
-  onNameChange: (String) -> Unit,
-  onEmailChange: (String) -> Unit,
-  onPasswordChange: (String) -> Unit,
-  onNameNextClick: () -> Unit,
-  onEmailNextClick: () -> Unit,
-  onPasswordNextClick: () -> Unit,
-  viewState: SignupViewState,
-  modifier: Modifier = Modifier,
+    onSubmitClick: () -> Unit,
+    nameValue: String,
+    nameErrorValue: String?,
+    emailValue: String,
+    emailErrorValue: String?,
+    passwordValue: String,
+    passwordErrorValue: String?,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onNameNextClick: () -> Unit,
+    onEmailNextClick: () -> Unit,
+    onPasswordNextClick: () -> Unit,
+    viewState: SignupViewState,
+    modifier: Modifier = Modifier,
 ) {
-  Column(
-    modifier = modifier
-      .fillMaxSize(),
-    verticalArrangement = Arrangement.SpaceBetween,
-  ) {
-    val localFocusManager = LocalFocusManager.current
-
     Column(
-      modifier = Modifier
-        .fillMaxWidth()
-        .weight(1f)
-        .padding(16.dp),
-      verticalArrangement = Arrangement.Center,
-      horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
+        val localFocusManager = LocalFocusManager.current
 
-      TextField(
-        modifier = Modifier.onFocusChanged {
-          if (it.isFocused) {
-            onNameNextClick.invoke()
-          }
-        },
-        value = nameValue,
-        onValueChange = { newValue ->
-          onNameChange(newValue)
-        },
-        label = { Text("Username") },
-        placeholder = { Text("Enter your name") },
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(
-          keyboardType = KeyboardType.Text,
-          imeAction = ImeAction.Next
-        ),
-        keyboardActions = KeyboardActions(
-          onNext = {
-            localFocusManager.moveFocus(FocusDirection.Down)
-          }),
-        leadingIcon = {
-          Icon(Icons.Filled.AccountCircle, contentDescription = "Username")
-        },
-        supportingText = {
-          Text(
-            text = nameErrorValue ?: "",
-            color = Color.Red,
-          )
-        },
-        isError = nameErrorValue != null,
-      )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            TextField(
+                modifier = Modifier.onFocusChanged {
+                    if (it.isFocused) {
+                        onNameNextClick.invoke()
+                    }
+                },
+                value = nameValue,
+                onValueChange = { newValue ->
+                    onNameChange(newValue)
+                },
+                label = { Text("Username") },
+                placeholder = { Text("Enter your name") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        localFocusManager.moveFocus(FocusDirection.Down)
+                    }
+                ),
+                leadingIcon = {
+                    Icon(Icons.Filled.AccountCircle, contentDescription = "Username")
+                },
+                supportingText = {
+                    Text(
+                        text = nameErrorValue ?: "",
+                        color = Color.Red,
+                    )
+                },
+                isError = nameErrorValue != null,
+            )
 
-      Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-      TextField(
-        modifier = Modifier.onFocusChanged {
-          if (it.isFocused) {
-            onEmailNextClick.invoke()
-          }
-        },
-        value = emailValue,
-        onValueChange = { newValue ->
-          onEmailChange(newValue)
-        },
-        label = { Text("Email") },
-        placeholder = { Text("xyz@gmail.com") },
-        keyboardOptions = KeyboardOptions(
-          keyboardType = KeyboardType.Email,
-          imeAction = ImeAction.Next
-        ),
-        keyboardActions = KeyboardActions(
-          onNext = {
-            localFocusManager.moveFocus(FocusDirection.Down)
-          }),
-        leadingIcon = {
-          Icon(Icons.Filled.Email, contentDescription = "Email")
-        },
-        supportingText = {
-          Text(
-            text = emailErrorValue ?: "",
-            color = Color.Red,
-          )
-        },
-        isError = emailErrorValue != null,
-      )
+            TextField(
+                modifier = Modifier.onFocusChanged {
+                    if (it.isFocused) {
+                        onEmailNextClick.invoke()
+                    }
+                },
+                value = emailValue,
+                onValueChange = { newValue ->
+                    onEmailChange(newValue)
+                },
+                label = { Text("Email") },
+                placeholder = { Text("xyz@gmail.com") },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        localFocusManager.moveFocus(FocusDirection.Down)
+                    }
+                ),
+                leadingIcon = {
+                    Icon(Icons.Filled.Email, contentDescription = "Email")
+                },
+                supportingText = {
+                    Text(
+                        text = emailErrorValue ?: "",
+                        color = Color.Red,
+                    )
+                },
+                isError = emailErrorValue != null,
+            )
 
-      Spacer(modifier = Modifier.height(9.dp))
+            Spacer(modifier = Modifier.height(9.dp))
 
-      var passwordVisible by rememberSaveable { mutableStateOf(false) }
-      TextField(
-        modifier = Modifier.onFocusChanged {
-          if (it.isFocused) {
-            onPasswordNextClick.invoke()
-          }
-        },
-        value = passwordValue,
-        onValueChange = { newValue ->
-          onPasswordChange(newValue)
-        },
-        label = { Text("Password") },
-        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-        placeholder = { Text("Enter your password") },
-        keyboardOptions =
-        KeyboardOptions(
-          keyboardType = KeyboardType.Password,
-          imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-          onDone = {
-            localFocusManager.clearFocus(force = true)
-          }),
-        trailingIcon = {
-          val image = if (passwordVisible)
-            Icons.Filled.Visibility
-          else Icons.Filled.VisibilityOff
+            var passwordVisible by rememberSaveable { mutableStateOf(false) }
+            TextField(
+                modifier = Modifier.onFocusChanged {
+                    if (it.isFocused) {
+                        onPasswordNextClick.invoke()
+                    }
+                },
+                value = passwordValue,
+                onValueChange = { newValue ->
+                    onPasswordChange(newValue)
+                },
+                label = { Text("Password") },
+                visualTransformation = if (passwordVisible) {
+                    VisualTransformation.None
+                } else {
+                    PasswordVisualTransformation()
+                },
+                placeholder = { Text("Enter your password") },
+                keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        localFocusManager.clearFocus(force = true)
+                    }
+                ),
+                trailingIcon = {
+                    val image = if (passwordVisible) {
+                        Icons.Filled.Visibility
+                    } else {
+                        Icons.Filled.VisibilityOff
+                    }
 
-          val description = if (passwordVisible) "Hide password" else "Show password"
+                    val description = if (passwordVisible) "Hide password" else "Show password"
 
-          IconButton(onClick = { passwordVisible = !passwordVisible }) {
-            Icon(imageVector = image, contentDescription = description)
-          }
-        },
-        leadingIcon = {
-          Icon(Icons.Filled.Password, contentDescription = "Password")
-        },
-        supportingText = {
-          Text(
-            text = passwordErrorValue ?: "",
-            color = Color.Red,
-          )
-        },
-        isError = passwordErrorValue != null,
-      )
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(imageVector = image, contentDescription = description)
+                    }
+                },
+                leadingIcon = {
+                    Icon(Icons.Filled.Password, contentDescription = "Password")
+                },
+                supportingText = {
+                    Text(
+                        text = passwordErrorValue ?: "",
+                        color = Color.Red,
+                    )
+                },
+                isError = passwordErrorValue != null,
+            )
+        }
+
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp, vertical = 16.dp),
+            onClick = onSubmitClick,
+            enabled = viewState.submitButtonEnabled,
+        ) {
+            Text("Sign Up")
+        }
     }
-
-    Button(
-      modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 32.dp, vertical = 16.dp),
-      onClick = onSubmitClick,
-      enabled = viewState.submitButtonEnabled,
-    ) {
-      Text("Sign Up")
-    }
-  }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable
 internal fun AuthPreview() {
-  PlayInfoTheme {
-//    SignupScreen({})
-  }
+    PlayInfoTheme {
+        SignupScreen(
+            onPasswordNextClick = {},
+            onEmailNextClick = {},
+            onPasswordChange = {},
+            passwordErrorValue = null,
+            modifier = Modifier,
+            nameValue = "Name",
+            viewState = SignupViewState(isLoading = false, submitButtonEnabled = true),
+            onNameChange = {},
+            onNameNextClick = {},
+            onEmailChange = {},
+            emailValue = "Email",
+            emailErrorValue = null,
+            passwordValue = "Password",
+            onSubmitClick = {},
+            nameErrorValue = null
+        )
+    }
 }

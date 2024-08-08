@@ -19,7 +19,7 @@ package dev.sagar.playinfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sagar.playinfo.core.data.repository.AuthRepository
+import dev.sagar.playinfo.data.repository.AuthRepository
 import dev.sagar.playinfo.domain.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,23 +28,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-  authRepository: AuthRepository,
+    authRepository: AuthRepository,
 ) : ViewModel() {
 
-  private val _isUserSignedIn: MutableStateFlow<MainActivityUiState> = MutableStateFlow(MainActivityUiState.Loading)
-  val isUserSignedIn: StateFlow<MainActivityUiState> = _isUserSignedIn
+    private val _isUserSignedIn: MutableStateFlow<MainActivityUiState> = MutableStateFlow(MainActivityUiState.Loading)
+    val isUserSignedIn: StateFlow<MainActivityUiState> = _isUserSignedIn
 
-  init {
-    viewModelScope.launch {
-      when (authRepository.isUserLoggedIn()) {
-        is Result.Success -> _isUserSignedIn.emit(MainActivityUiState.Success(true))
-        is Result.Error -> _isUserSignedIn.emit(MainActivityUiState.Success(false))
-      }
+    init {
+        viewModelScope.launch {
+            when (authRepository.isUserLoggedIn()) {
+                is Result.Success -> _isUserSignedIn.emit(MainActivityUiState.Success(true))
+                is Result.Error -> _isUserSignedIn.emit(MainActivityUiState.Success(false))
+            }
+        }
     }
-  }
 }
 
 sealed interface MainActivityUiState {
-  data object Loading : MainActivityUiState
-  data class Success(val isUserLoggedIn: Boolean) : MainActivityUiState
+    data object Loading : MainActivityUiState
+    data class Success(val isUserLoggedIn: Boolean) : MainActivityUiState
 }

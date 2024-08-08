@@ -15,12 +15,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-  @Provides
-  @Singleton
-  fun providesFirebaseAuth(): FirebaseAuth = Firebase.auth
+    @Provides
+    @Singleton
+    fun providesFirebaseAuth(): FirebaseAuth = Firebase.auth
 
-  @Provides
-  @Singleton
-  fun providesCoroutineProvider(
-  ): CoroutineProvider = AppCoroutineProvider()
+    @Provides
+    @Singleton
+    fun providesCoroutineProvider(): CoroutineProvider = AppCoroutineProvider()
 }
