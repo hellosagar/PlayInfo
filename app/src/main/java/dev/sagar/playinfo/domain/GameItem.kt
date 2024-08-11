@@ -1,6 +1,6 @@
 package dev.sagar.playinfo.domain
 
-data class Game(
+data class GameItem(
     val id: Int,
     val name: String,
     val imageUrl: Images,

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sagar.playinfo.domain.Game
+import dev.sagar.playinfo.domain.GameItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
 }
 
 data class HomeViewState(
-    val games: Flow<PagingData<Game>>? = null,
+    val games: Flow<PagingData<GameItem>>? = null,
     val isLoading: Boolean = false,
     val error: String = ""
 )

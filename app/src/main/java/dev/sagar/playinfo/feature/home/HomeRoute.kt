@@ -25,12 +25,12 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import coil.compose.AsyncImage
-import dev.sagar.playinfo.domain.Game
+import dev.sagar.playinfo.domain.GameItem
 import dev.sagar.playinfo.ui.theme.PlayInfoTheme
 
 @Composable
 fun HomeRoute(
-    onClick: (game: Game) -> Unit,
+    onClick: (gameItem: GameItem) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
@@ -40,12 +40,12 @@ fun HomeRoute(
 @Composable
 private fun HomeContent(
     viewState: HomeViewState,
-    onGameClick: (Game) -> Unit,
+    onGameClick: (GameItem) -> Unit,
 ) {
     if (viewState.isLoading) {
         Text(text = "Loading...")
     } else {
-        val gamesLazyItems: LazyPagingItems<Game> =
+        val gamesLazyItems: LazyPagingItems<GameItem> =
             viewState.games?.collectAsLazyPagingItems() ?: return
         GameList(
             modifier = Modifier
@@ -59,8 +59,8 @@ private fun HomeContent(
 
 @Composable
 private fun GameList(
-    gamesLazyItems: LazyPagingItems<Game>,
-    onGameClick: (game: Game) -> Unit,
+    gamesLazyItems: LazyPagingItems<GameItem>,
+    onGameClick: (gameItem: GameItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -70,7 +70,7 @@ private fun GameList(
             count = gamesLazyItems.itemCount,
             contentType = gamesLazyItems.itemContentType { "Games" }
         ) { index: Int ->
-            val article: Game = gamesLazyItems[index] ?: return@items
+            val article: GameItem = gamesLazyItems[index] ?: return@items
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

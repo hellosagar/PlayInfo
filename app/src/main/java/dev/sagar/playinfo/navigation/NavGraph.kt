@@ -10,7 +10,7 @@ import androidx.navigation.toRoute
 import dev.sagar.playinfo.feature.auth.login.LoginRoute
 import dev.sagar.playinfo.feature.auth.onboarding.OnboardingRoute
 import dev.sagar.playinfo.feature.auth.signup.SignupRoute
-import dev.sagar.playinfo.feature.detail.DetailScreen
+import dev.sagar.playinfo.feature.detail.GameDetailRoute
 import dev.sagar.playinfo.feature.home.HomeRoute
 
 @Composable
@@ -68,7 +68,7 @@ fun SetupNavGraph(
         }
         composable<Screen.Detail> { backStackEntry ->
             val detail = backStackEntry.toRoute<Screen.Detail>()
-            DetailScreen(gameId = detail.id, onBackClick = {
+            GameDetailRoute(gameId = detail, onBackClick = {
                 if (navController.canGoBack) {
                     navController.popBackStack()
                 }

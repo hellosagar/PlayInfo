@@ -2,15 +2,16 @@ package dev.sagar.playinfo.data.mapper
 
 import dev.sagar.playinfo.core.mappers.Mapper
 import dev.sagar.playinfo.data.remote.model.GameListResponse
-import dev.sagar.playinfo.domain.Game
+import dev.sagar.playinfo.domain.GameItem
 import dev.sagar.playinfo.domain.GamePlatform
 import dev.sagar.playinfo.domain.Images
 import javax.inject.Inject
 
-class GameListResponseToDomainMapperImpl @Inject constructor() : Mapper<GameListResponse, List<Game>> {
-    override fun convert(data: GameListResponse): List<Game> {
-        val games = data.results?.map { result ->
-            Game(
+class GameListResponseToDomainMapperImpl @Inject constructor() :
+    Mapper<GameListResponse, List<GameItem>> {
+    override fun convert(data: GameListResponse): List<GameItem> {
+        val gameItems = data.results?.map { result ->
+            GameItem(
                 id = result?.id ?: 0,
                 name = result?.name ?: "",
                 imageUrl = Images(
@@ -29,6 +30,6 @@ class GameListResponseToDomainMapperImpl @Inject constructor() : Mapper<GameList
                 } ?: emptyList(),
             )
         } ?: emptyList()
-        return games
+        return gameItems
     }
 }
