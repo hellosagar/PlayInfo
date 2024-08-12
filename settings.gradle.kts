@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "PlayInfo"
 include(":app")
+include(":benchmark")
