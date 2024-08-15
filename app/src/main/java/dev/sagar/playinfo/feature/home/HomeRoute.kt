@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -65,12 +66,14 @@ private fun GameList(
 ) {
     LazyColumn(
         modifier = modifier
+            .testTag("home_game_list"),
     ) {
         items(
             count = gamesLazyItems.itemCount,
             contentType = gamesLazyItems.itemContentType { "Games" }
         ) { index: Int ->
             val article: GameItem = gamesLazyItems[index] ?: return@items
+            println("-_- home_game_item_${index}")
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -79,6 +82,7 @@ private fun GameList(
                         onGameClick.invoke(article)
                     }
                     .padding(16.dp)
+                    .testTag("home_game_item_${index}"),
             ) {
                 AsyncImage(
                     modifier = Modifier

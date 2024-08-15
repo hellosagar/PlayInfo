@@ -24,6 +24,9 @@ android {
         targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val testIterations = System.getenv("TEST_ITERATIONS") ?: "1"
+        buildConfigField("int", "TEST_ITERATIONS", testIterations)
     }
 
     targetProjectPath = ":app"
@@ -37,6 +40,10 @@ android {
             apiLevel = 34
             systemImageSource = "google"
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 

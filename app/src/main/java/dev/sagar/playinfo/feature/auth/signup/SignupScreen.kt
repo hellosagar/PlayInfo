@@ -32,6 +32,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -137,11 +138,13 @@ internal fun SignupScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TextField(
-                modifier = Modifier.onFocusChanged {
-                    if (it.isFocused) {
-                        onNameNextClick.invoke()
+                modifier = Modifier
+                    .onFocusChanged {
+                        if (it.isFocused) {
+                            onNameNextClick.invoke()
+                        }
                     }
-                },
+                    .testTag("signup_name_text_field"),
                 value = nameValue,
                 onValueChange = { newValue ->
                     onNameChange(newValue)
@@ -173,11 +176,13 @@ internal fun SignupScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             TextField(
-                modifier = Modifier.onFocusChanged {
-                    if (it.isFocused) {
-                        onEmailNextClick.invoke()
+                modifier = Modifier
+                    .onFocusChanged {
+                        if (it.isFocused) {
+                            onEmailNextClick.invoke()
+                        }
                     }
-                },
+                    .testTag("signup_email_text_field"),
                 value = emailValue,
                 onValueChange = { newValue ->
                     onEmailChange(newValue)
@@ -209,11 +214,13 @@ internal fun SignupScreen(
 
             var passwordVisible by rememberSaveable { mutableStateOf(false) }
             TextField(
-                modifier = Modifier.onFocusChanged {
-                    if (it.isFocused) {
-                        onPasswordNextClick.invoke()
+                modifier = Modifier
+                    .onFocusChanged {
+                        if (it.isFocused) {
+                            onPasswordNextClick.invoke()
+                        }
                     }
-                },
+                    .testTag("signup_password_text_field"),
                 value = passwordValue,
                 onValueChange = { newValue ->
                     onPasswordChange(newValue)
@@ -264,7 +271,8 @@ internal fun SignupScreen(
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 16.dp),
+                .padding(horizontal = 32.dp, vertical = 16.dp)
+                .testTag("signup_submit_button"),
             onClick = onSubmitClick,
             enabled = viewState.submitButtonEnabled,
         ) {
