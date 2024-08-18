@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,12 +70,14 @@ private fun GameDetailContent(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .testTag("game_detail_content"),
             ) {
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp),
+                        .height(200.dp)
+                        .testTag("game_detail_image"),
                     model = gameDetail.imageUrl,
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
