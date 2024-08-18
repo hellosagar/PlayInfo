@@ -36,6 +36,9 @@ import org.junit.runner.RunWith
 @LargeTest
 class HomeProfileGenerator : BaselineProfileGeneratorScaffold() {
 
+    override val includeInStartupProfile: Boolean
+        get() = true
+
     @get:Rule
     override val rule = BaselineProfileRule()
     override fun MacrobenchmarkScope.profileBlock() {

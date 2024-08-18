@@ -37,8 +37,8 @@ android {
     testOptions.managedDevices.devices {
         create<ManagedVirtualDevice>("pixel6Api34") {
             device = "Pixel 6"
-            apiLevel = 34
-            systemImageSource = "google"
+            apiLevel = 31
+            systemImageSource = "aosp"
         }
     }
 
@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.uiautomator)
     implementation(libs.androidx.benchmark.macro.junit4)
+    implementation(libs.google.firebase.auth.ktx)
 }
 
 androidComponents {
