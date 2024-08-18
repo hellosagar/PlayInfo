@@ -73,7 +73,6 @@ private fun GameList(
             contentType = gamesLazyItems.itemContentType { "Games" }
         ) { index: Int ->
             val article: GameItem = gamesLazyItems[index] ?: return@items
-            println("-_- home_game_item_${index}")
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -82,7 +81,7 @@ private fun GameList(
                         onGameClick.invoke(article)
                     }
                     .padding(16.dp)
-                    .testTag("home_game_item_${index}"),
+                    .testTag("home_game_item_$index"),
             ) {
                 AsyncImage(
                     modifier = Modifier

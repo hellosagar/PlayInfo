@@ -38,6 +38,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     val viewModel: MainActivityViewModel by viewModels()
+
     @OptIn(ExperimentalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
