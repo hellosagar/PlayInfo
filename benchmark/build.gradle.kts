@@ -36,9 +36,9 @@ android {
     // ./gradlew :app:generateBaselineProfile
     testOptions.managedDevices.devices {
         create<ManagedVirtualDevice>("pixel6Api34") {
-            device = "Nexus One"
-            apiLevel = 30
-            systemImageSource = "aosp-atd"
+            device = "Pixel 6"
+            apiLevel = 33
+            systemImageSource = "aosp"
         }
     }
 
