@@ -27,6 +27,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Install required Android SDK components
+        run: sdkmanager "system-images;android-30;aosp_atd;x86" "build-tools;30.0.3"
+
       - name: Run Detekt
         run: ./gradlew detekt
 
