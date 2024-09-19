@@ -22,7 +22,7 @@ composerules = "0.4.4"
 composeNavigation = "2.8.0-beta03"
 loggingInterceptor = "5.0.0-alpha.2"
 pagingCompose = "3.3.0"
-serialization = "1.7.0"
+serialization = "1.7.3"
 chucker = "4.0.0"
 materialIconsExtended = "1.6.8"
 
